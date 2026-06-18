@@ -1,0 +1,76 @@
+{
+  "name": "universal-ai-agent",
+  "displayName": "Universal AI Agent",
+  "description": "A comprehensive AI agent extension for VS Code supporting multiple AI providers",
+  "version": "0.1.0",
+  "publisher": "S-B-Interprises",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "AI",
+    "Programming Languages",
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:universal-ai-agent.activate"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "universal-ai-agent.activate",
+        "title": "Universal AI Agent: Activate"
+      },
+      {
+        "command": "universal-ai-agent.chat",
+        "title": "Universal AI Agent: Open Chat"
+      },
+      {
+        "command": "universal-ai-agent.analyze",
+        "title": "Universal AI Agent: Analyze Code"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "universal-ai-agent-container",
+          "title": "Universal AI Agent",
+          "icon": "resources/icons/agent.svg"
+        }
+      ]
+    },
+    "views": {
+      "universal-ai-agent-container": [
+        {
+          "id": "agent-chat",
+          "name": "Chat",
+          "type": "webview"
+        },
+        {
+          "id": "agent-settings",
+          "name": "Settings"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "dev": "npm run watch"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.54.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {}
+}
