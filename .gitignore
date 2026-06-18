@@ -1,0 +1,41 @@
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build outputs
+out/
+dist/
+*.tsbuildinfo
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Coverage
+coverage/
+.nyc_output/
+
+# IDE
+.vscode/settings.json
+.vscode/launch.json
+.VS/
+
+# Extension
+*.vsix
+
+# Tests
+.mocha.opts
+test-results.xml
