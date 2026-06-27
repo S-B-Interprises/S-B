@@ -1,8 +1,9 @@
 // Extension entry point
 import * as vscode from 'vscode';
-import { AgentEngine } from '@core/agent/AgentEngine';
-import { TaskManager } from '@core/agent/TaskManager';
-import { PermissionManager } from '@shared/permissions/PermissionManager';
+import { AgentEngine } from './core/agent/AgentEngine';
+import { TaskManager } from './core/agent/TaskManager';
+import { PermissionManager } from './shared/permissions/PermissionManager';
+import { SidebarProvider } from './ui/SidebarProvider';
 
 let agentEngine: AgentEngine;
 let taskManager: TaskManager;
@@ -20,6 +21,15 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     agentEngine = new AgentEngine(context);
     taskManager = new TaskManager();
 
+    const sidebarProvider = new SidebarProvider(
+      context.extensionUri,
+      agentEngine
+    );
+    const sidebarRegistration = vscode.window.registerWebviewViewProvider(
+      SidebarProvider.viewType,
+      sidebarProvider
+    );
+
     // Register commands
     const activateCmd = vscode.commands.registerCommand(
       'universal-ai-agent.activate',
@@ -36,7 +46,16 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
       () => onAnalyzeCommand(context)
     );
 
-    context.subscriptions.push(activateCmd, chatCmd, analyzeCmd);
+    context.subscriptions.push(
+      sidebarRegistration,
+      activateCmd,
+      chatCmd,
+      analyzeCmd
+    );
+
+    void agentEngine;
+    void taskManager;
+    void permissionManager;
 
     console.log('Universal AI Agent: Activated successfully');
   } catch (error) {
@@ -56,20 +75,20 @@ export async function deactivate(): Promise<void> {
 /**
  * Handle activate command
  */
-async function onActivateCommand(context: vscode.ExtensionContext): Promise<void> {
+async function onActivateCommand(_context: vscode.ExtensionContext): Promise<void> {
   vscode.window.showInformationMessage('Universal AI Agent is active');
 }
 
 /**
  * Handle chat command
  */
-async function onChatCommand(context: vscode.ExtensionContext): Promise<void> {
-  // Chat implementation
+async function onChatCommand(_context: vscode.ExtensionContext): Promise<void> {
+  await vscode.commands.executeCommand('agent-chat.focus');
 }
 
 /**
  * Handle analyze command
  */
-async function onAnalyzeCommand(context: vscode.ExtensionContext): Promise<void> {
+async function onAnalyzeCommand(_context: vscode.ExtensionContext): Promise<void> {
   // Analysis implementation
 }

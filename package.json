@@ -47,12 +47,19 @@
           "id": "agent-chat",
           "name": "Chat",
           "type": "webview"
-        },
-        {
-          "id": "agent-settings",
-          "name": "Settings"
         }
       ]
+    },
+    "configuration": {
+      "title": "Universal AI Agent",
+      "properties": {
+        "universal-ai-agent.openaiApiKey": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "OpenAI API key used when GPT is selected.",
+          "scope": "machine-overridable"
+        }
+      }
     }
   },
   "scripts": {
@@ -72,5 +79,8 @@
     "eslint": "^8.54.0",
     "typescript": "^5.3.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "openai": "^6.44.0"
+  }
 }

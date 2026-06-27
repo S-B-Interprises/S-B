@@ -1,0 +1,91 @@
+body {
+      margin: 0;
+      padding: 16px;
+      color: var(--vscode-foreground);
+      background: var(--vscode-sideBar-background);
+      font-family: var(--vscode-font-family);
+      font-size: var(--vscode-font-size);
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: calc(100vh - 32px);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .status {
+      color: var(--vscode-descriptionForeground);
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-weight: 600;
+    }
+
+    select,
+    textarea,
+    button {
+      color: var(--vscode-input-foreground);
+      background: var(--vscode-input-background);
+      border: 1px solid var(--vscode-input-border);
+      border-radius: 2px;
+      font: inherit;
+    }
+
+    select {
+      padding: 6px 8px;
+    }
+
+    .chat-area {
+      flex: 1;
+      min-height: 180px;
+      padding: 10px;
+      border: 1px solid var(--vscode-panel-border);
+      background: var(--vscode-editor-background);
+      overflow-y: auto;
+    }
+
+    .placeholder {
+      color: var(--vscode-descriptionForeground);
+    }
+    .message {
+      margin: 0 0 12px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.4;
+    }
+
+    .message:last-child {
+      margin-bottom: 0;
+    }
+
+    .sender {
+      font-weight: 600;
+    }
+
+    textarea {
+      min-height: 76px;
+      padding: 8px;
+      resize: vertical;
+    }
+
+    button {
+      padding: 8px 12px;
+      color: var(--vscode-button-foreground);
+      background: var(--vscode-button-background);
+      border-color: var(--vscode-button-background);
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: var(--vscode-button-hoverBackground);
+    }

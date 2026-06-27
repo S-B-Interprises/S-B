@@ -7,11 +7,13 @@ import * as vscode from 'vscode';
 import { AIRouter } from '../router/AIRouter';
 import { ChatMemory } from '../memory/ChatMemory';
 import { ProjectMemory } from '../memory/ProjectMemory';
+import { AIProviderBase, IGenerationOptions } from '../../providers/base/AIProvider';
 
 export interface IAgentConfig {
   maxTokens?: number;
   temperature?: number;
   provider?: string;
+  openAIApiKey?: string;
 }
 
 export interface IAgentResponse {
@@ -38,7 +40,7 @@ export class AgentEngine {
     this.context = context;
     this.config = this.loadConfig();
     this.router = new AIRouter();
-    this.chatMemory = new ChatMemory();
+    this.chatMemory = new ChatMemory(context);
     this.projectMemory = new ProjectMemory();
   }
 
@@ -49,14 +51,31 @@ export class AgentEngine {
     query: string,
     options?: IAgentConfig
   ): Promise<IAgentResponse> {
-    throw new Error('Not implemented');
+    const provider = await this.getProvider();
+    const generationOptions: IGenerationOptions = {
+        temperature: options?.temperature || this.config.temperature,
+        maxTokens: options?.maxTokens || this.config.maxTokens,
+    };
+
+    const result = await provider.generate(query, generationOptions);
+
+    return {
+      content: result.content,
+      provider: provider.name,
+      timestamp: new Date(),
+      tokens: result.tokensUsed,
+    };
   }
 
   /**
    * Get AI provider
    */
-  getProvider() {
-    throw new Error('Not implemented');
+  async getProvider(): Promise<AIProviderBase> {
+    const provider = await this.router.route('');
+    if (!provider.isConfigured) {
+        await provider.initialize({ apiKey: this.config.openAIApiKey || '' });
+    }
+    return provider;
   }
 
   /**
@@ -68,6 +87,7 @@ export class AgentEngine {
       maxTokens: config.get('maxTokens', 2048),
       temperature: config.get('temperature', 0.7),
       provider: config.get('provider', 'openai'),
+      openAIApiKey: config.get('openaiApiKey', ''),
     };
   }
 }
